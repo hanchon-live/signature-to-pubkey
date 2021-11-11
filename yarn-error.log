@@ -1,0 +1,70 @@
+Arguments: 
+  /Users/elhachon/.nvm/versions/node/v16.4.1/bin/node /Users/elhachon/.nvm/versions/node/v16.4.1/bin/yarn install
+
+PATH: 
+  /Users/elhachon/go/bin:/Users/elhachon/.nvm/versions/node/v16.4.1/bin:/usr/local/opt/gettext/bin:/usr/local/opt/qt/bin:/usr/local/opt/sqlite/bin:/usr/local/opt/openssl@1.1/bin:/usr/local/opt/gettext/bin:/Users/elhachon/.nvm/versions/node/v16.4.1/bin:/Users/elhachon/Programs/mongodb-osx-x86_64-4.0.6/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/elhachon/go/bin:/Users/elhachon/.nvm/versions/node/v16.4.1/bin:/usr/local/opt/gettext/bin:/usr/local/opt/qt/bin:/usr/local/opt/sqlite/bin:/usr/local/opt/openssl@1.1/bin:/Users/elhachon/Programs/mongodb-osx-x86_64-4.0.6/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  16.4.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/elhachon/devel/hanchon-live/signature-to-pubkey/package.json: Unexpected token ] in JSON at position 526
+      at JSON.parse (<anonymous>)
+      at /Users/elhachon/.nvm/versions/node/v16.4.1/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/Users/elhachon/.nvm/versions/node/v16.4.1/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /Users/elhachon/.nvm/versions/node/v16.4.1/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+      "name": "@hanchon/signature-to-pubkey",
+      "version": "1.0.0",
+      "description": "Generate a public key from a signature",
+      "license": "MIT",
+      "repository": "hanchon-live/signature-to-pubkey",
+      "source": "src/converter.ts",
+      "main": "lib/converter.js",
+      "module": "./lib/converter.module.js",
+      "types": "lib/converter.d.ts",
+      "keywords": [
+          "ethermint",
+          "evmos",
+          "bech32",
+          "eth",
+          "blockchain",
+          "pubkey",
+          "converter",
+          "signature",
+      ],
+      "files": [
+          "lib/**/*"
+      ],
+      "author": "Hanchon <guillermo.paoletti@gmail.com>",
+      "scripts": {
+          "build": "microbundle",
+          "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+      },
+      "devDependencies": {
+          "@babel/core": "^7.15.0",
+          "@babel/preset-env": "^7.15.0",
+          "@babel/preset-typescript": "^7.15.0",
+          "@types/jest": "^27.0.1",
+          "@types/node": "^16.7.4",
+          "babel-jest": "^27.1.0",
+          "jest": "^27.1.0",
+          "microbundle": "^0.13.3",
+          "typescript": "^4.4.2"
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
