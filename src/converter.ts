@@ -15,7 +15,7 @@ function isValidSigRecovery(recovery: bigint): boolean {
   return recovery === BigInt(0) || recovery === BigInt(1);
 }
 
-export const recoverPubKey = function (
+const recoverPubKey = function (
   msgHash: Buffer,
   v: bigint,
   r: Buffer,
