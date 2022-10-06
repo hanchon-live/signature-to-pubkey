@@ -1,41 +1,54 @@
-import { fromRpcSig } from "ethereumjs-util";
+import { fromRpcSig } from "@ethereumjs/util";
+import { recoverPublicKey } from "ethereum-cryptography/secp256k1";
+import { setLengthLeft } from "@ethereumjs/util";
 
-const secp256k1_1 = require("ethereum-cryptography/secp256k1");
-const bytes_1 = require("ethereumjs-util/dist/bytes");
-const types_1 = require("ethereumjs-util/dist/types");
+function calculateSigRecovery(v: bigint, chainId?: bigint): bigint {
+  if (v === BigInt(0) || v === BigInt(1)) return v;
 
-function calculateSigRecovery(v: any, chainId: any) {
-  const vBN = (types_1.toType)(v, types_1.TypeOutput.BN);
-  if (!chainId) {
-    return vBN.subn(27);
+  if (chainId === undefined) {
+    return v - BigInt(27);
   }
-  const chainIdBN = (types_1.toType)(chainId, types_1.TypeOutput.BN);
-  return vBN.sub(chainIdBN.muln(2).addn(35));
+  return v - (chainId * BigInt(2) + BigInt(35));
 }
 
-function isValidSigRecovery(recovery: any) {
-  return recovery == 0 || recovery == 1
+function isValidSigRecovery(recovery: bigint): boolean {
+  return recovery === BigInt(0) || recovery === BigInt(1);
 }
 
-function recoverPubKey(msgHash: Buffer, v: any, r: Buffer, s: Buffer, chainId?: any) {
-  const signature = Buffer.concat([(bytes_1.setLengthLeft)(r, 32), (bytes_1.setLengthLeft)(s, 32)], 64);
+export const recoverPubKey = function (
+  msgHash: Buffer,
+  v: bigint,
+  r: Buffer,
+  s: Buffer,
+  chainId?: bigint
+): string {
+  const signature = Buffer.concat(
+    [setLengthLeft(r, 32), setLengthLeft(s, 32)],
+    64
+  );
   const recovery = calculateSigRecovery(v, chainId);
   if (!isValidSigRecovery(recovery)) {
-    throw new Error('Invalid signature v value');
+    throw new Error("Invalid signature v value");
   }
-  const senderPubKey = (secp256k1_1.ecdsaRecover)(signature, recovery.toNumber(), msgHash);
-  return Buffer.from(senderPubKey).toString('base64');
-}
+
+  const senderPubKey = recoverPublicKey(
+    msgHash,
+    signature,
+    Number(recovery),
+    true
+  );
+  return Buffer.from(senderPubKey).toString("base64");
+};
 
 export function signatureToPubkey(signature: string, msgHash: Buffer) {
-  let ret = fromRpcSig(signature)
-  return recoverPubKey(msgHash, ret.v, ret.r, ret.s)
+  let ret = fromRpcSig(signature);
+  return recoverPubKey(msgHash, ret.v, ret.r, ret.s);
 }
 
 export function fromHexString(hexString: string) {
-  let match = hexString.match(/.{1,2}/g)
+  let match = hexString.match(/.{1,2}/g);
   if (match === null) {
-    return new Uint8Array()
+    return new Uint8Array();
   }
-  return new Uint8Array(match.map(byte => parseInt(byte, 16)));
+  return new Uint8Array(match.map((byte) => parseInt(byte, 16)));
 }
